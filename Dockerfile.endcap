@@ -1,0 +1,6 @@
+# horatioh-Patch 2026-10-24: Backtest-Ende ohne Kappung auf "gestern" (Zweig backtest-ende-ohne-kappung).
+# Ersetzt NUR QuantConnect.Algorithm.dll im bestehenden Image (quantconnect/lean:17490 = 7fb246511 + IB-DLLs).
+# Bau: dotnet build Algorithm/QuantConnect.Algorithm.csproj -c Debug
+#      docker build -t lean-ib-horatioh:endcap -f Dockerfile.endcap .
+FROM lean-ib-horatioh:latest
+COPY Algorithm/bin/Debug/QuantConnect.Algorithm.dll /Lean/Launcher/bin/Debug/QuantConnect.Algorithm.dll

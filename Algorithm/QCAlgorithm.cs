@@ -1800,12 +1800,12 @@ namespace QuantConnect.Algorithm
             }
 
             //Validate:
-            //2. Check Range:
-            var yesterdayInAlgorithmTimeZone = DateTime.UtcNow.ConvertFromUtc(TimeZone).Date.AddDays(-1);
-            if (end > yesterdayInAlgorithmTimeZone)
-            {
-                end = yesterdayInAlgorithmTimeZone;
-            }
+            //2. Check Range: ENTFERNT (horatioh-Patch 2026-10-24, Zweig backtest-ende-ohne-kappung).
+            //   Upstream kappte das Ende auf "gestern 23:59:59" der Algorithmus-Zeitzone. Ein Tagesbalken
+            //   des Tages d traegt den Zeitstempel d+1 00:00 -- so sah ein Backtest den letzten vorhandenen
+            //   Schluss nie und erreichte keinen Termin am naechsten Handelstag. Der Parity-Abgleich
+            //   (quantconnect Story 25-6) rechnet am Handelstag t um 01:20 ET mit end_date = t und braucht
+            //   genau das. Ohne Daten laeuft der Backtest leer bis zum Ende; live kehrt die Methode oben zurueck.
 
             //3. Make this at the very end of the requested date
             _endDate = end.RoundDown(TimeSpan.FromDays(1)).AddDays(1).AddTicks(-1);
